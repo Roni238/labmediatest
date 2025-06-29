@@ -1,5 +1,8 @@
 # labmediatest
 
+## Предпросмотр
+https://labmediatest.vercel.app/
+
 ## Начало работы
 
 ```
