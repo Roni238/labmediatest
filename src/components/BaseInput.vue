@@ -2,22 +2,29 @@
   <input 
     class="input" 
     :class="{ 'input--error': hasError }"
-    type="text" 
-    v-model="modelValue"
+    :type="type" 
+    :value="modelValue"
+    @input="(e) => modelValue = (e.target as HTMLInputElement).value"
     :placeholder="placeholder"
+    :maxlength="maxLength"
   />
 </template>
 
 <script setup lang="ts">
-const modelValue = defineModel<string>();
-
-defineProps<{
+const props = withDefaults(defineProps<{
   placeholder?: string;
   hasError?: boolean;
-}>();
+  type?: string;
+  maxLength?: number;
+}>(), {
+  type: 'text',
+  hasError: false
+})
+
+const modelValue = defineModel<string>()
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .input {
   width: 100%;
   padding: 10px 14px;
@@ -27,13 +34,17 @@ defineProps<{
   outline: none;
   transition: border-color 0.2s;
   box-sizing: border-box;
-}
+  font-family: 'Courier New', monospace;
 
-.input:focus {
-  border-color: #42b983;
-}
-
-.input--error {
-  border-color: #ef4444;
+  &--error {
+    border-color: #ef4444;
+  }
+  &:focus {
+    border-color: #42b983;
+  }
+  &::placeholder {
+    color: #9ca3af;
+    font-family: inherit;
+  }
 }
 </style>

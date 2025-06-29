@@ -11,6 +11,9 @@ export interface FormField {
   error: string;
   placeholder?: string;
   rules: ValidationRule[];
+  label?: string;
+  type?: string;
+  maxLength?: number;
 }
 
 export interface FormValidation {

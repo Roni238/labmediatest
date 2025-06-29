@@ -24,7 +24,13 @@ export function useApi<T>() {
   })
 
   const fetchData = async (url: string, options: RequestOptions = { method: 'GET' }) => {
-    const config = { ...options }
+    const config = { 
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+      }
+    }
 
     response.value = {
       ...response.value,
@@ -36,12 +42,12 @@ export function useApi<T>() {
     try {
       const fetchResponse = await fetch(url, {
         method: config.method,
-        headers: config.headers || {},
+        headers: config.headers,
         body: config.body ? JSON.stringify(config.body) : undefined,
       })
 
       if (!fetchResponse.ok) {
-        throw new Error(`Ошибка: ${fetchResponse.status}`)
+        throw new Error(`Ошибка: ${fetchResponse.status} ${fetchResponse.statusText}`)
       }
       
       const responseData = await fetchResponse.json()
